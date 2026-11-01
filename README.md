@@ -1,7 +1,7 @@
 # create
 A simple bash/.bashrc function to create a file with a shebang.
 
-Usage? just put it in your .bashrc and you can use it on you whole system.
+Usage? just put it in your .bashrc and you can use it on your whole system.
 
 Like: 
 ```
