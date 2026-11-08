@@ -1,9 +1,41 @@
 #!/usr/bin/env bash
 
-function create() {
-  create_file=$1
-  touch "$create_file"
-  echo "#!/usr/bin/env bash" >"$create_file"
+create() {
+  local language=$1
+  local create_file=$2
+  local shebang
+
+  if [[ -z "$language" || -z "$create_file" ]]; then
+    echo "Usage: create --bash|--python|--sh filename"
+    return 1
+  fi
+
+  # Check if file already exists
+  if [[ -e "$create_file" ]]; then
+    echo "File '$create_file' already exists."
+    return 1
+  fi
+
+  # Select shebang
+  case "$language" in
+  --bash)
+    shebang='#!/usr/bin/env bash'
+    ;;
+  --python)
+    shebang='#!/usr/bin/env python3'
+    ;;
+  --sh)
+    shebang='#!/bin/sh'
+    ;;
+  *)
+    echo "Unknown language: $language"
+    return 1
+    ;;
+  esac
+
+  # Create file
+  printf '%s\n' "$shebang" >"$create_file" || return 1
   chmod +x "$create_file"
-  echo "File with Bash shebang $create_file was created."
+
+  echo "Created '$create_file' with $language shebang."
 }
